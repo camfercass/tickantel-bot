@@ -15,6 +15,11 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       CHECK_INTERVAL: 5
 
+    # Evita ejecutar dos instancias en paralelo
+    concurrency:
+      group: tickantel-bot
+      cancel-in-progress: false
+
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
