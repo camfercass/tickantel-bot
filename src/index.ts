@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const URL_TICKANTEL = "https://tickantel.com.uy/inicio/espectaculo/40019797/espectaculo/Clausura%202025%20-%20Pe%C3%B1arol%20vs%20Defensor%20Sporting?2";
+const URL_TICKANTEL = process.env.URL_TICKANTEL!;
 
 const INTERVAL_MIN = parseInt(process.env.CHECK_INTERVAL || "5", 10);
 
@@ -56,6 +56,8 @@ async function sendTelegram(text: string): Promise<void> {
     if (!res.ok) {
         const err = await res.text();
         throw new Error(`Telegram API error (${res.status}): ${err}`);
+    } else {
+        console.log("📲 Telegram enviado correctamente!");
     }
 }
 
