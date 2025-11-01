@@ -29,5 +29,6 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          URL_TICKANTEL: ${{ vars.URL_TICKANTEL }}
           CHECK_INTERVAL: 5
         run: npm run dev
