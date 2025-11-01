@@ -9,6 +9,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      URL_TICKANTEL: ${{ vars.URL_TICKANTEL }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      CHECK_INTERVAL: 5
 
     steps:
       - name: Checkout código
@@ -25,10 +30,16 @@ jobs:
       - name: Instalar Playwright + dependencias del navegador
         run: npx playwright install --with-deps
 
+      - name: Debug- comprobar si URL_TICKANTEL está presente (no imprime el valor)
+        run: |
+          if [ -z "$URL_TICKANTEL" ]; then
+            echo "ERROR: URL_TICKANTEL está vacío"
+            exit 1
+          else
+            echo "OK: URL_TICKANTEL está presente"
+            # Si NO es secreta y quieres verla (solo para debug), descomenta la siguiente línea:
+            # echo "URL_TICKANTEL=$URL_TICKANTEL"
+          fi
+
       - name: Ejecutar bot
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          URL_TICKANTEL: ${{ vars.URL_TICKANTEL }}
-          CHECK_INTERVAL: 5
         run: npm run dev
